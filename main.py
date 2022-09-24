@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from cgitb import text
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -35,8 +36,16 @@ def siera_burgers():
 def dsiera_burgers():
     return render_template('dsiera_burgers.html')
 
-@app.route('/registracija')
+@app.route('/registracija', methods = ['GET', 'POST'])
 def registracija():
+    if request.method == "POST":
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+        with open("zinas.csv", "a", encoding="utf-8") as f:
+            f.write(fname)
+        print("So far so good?", fname, lname)
+    else:
+        print("Unlucky....")
     return render_template('registracija.html')
 
 if __name__ == '__main__':
